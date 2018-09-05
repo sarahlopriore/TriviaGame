@@ -1,20 +1,38 @@
-// set varaibles
-var unanswered = 0;
-var incorrect = 0;
-var correct = 0;
-
-
-
 // start page with trivia game title and a start button
 // game title is constant
 
 $(document).ready(function() {
-    
-})
+
+$("ul").hide();
+
+// set variables
+var unanswered = 0;
+var incorrect = 0;
+var correct = 0;
+var time = 31;
+
+var startTime = function() {
+    intervalId = setInterval(countdown, 1000);
+}
 
 // user presses start to begin the game
 // time remaining displays with a timer that counts down (only applies to the one question)
 // first question appears with 4 options
+$(document).on("click", "#start", function() {
+    $("#start").hide();
+    startTime();
+    $("ul").show();
+    
+})
+
+var countdown = function() {
+    time--;
+    console.log(time);
+    $("#time-count").text("Time Remaining: " + time)
+    if (time === 0) {
+        clearInterval(intervalId)
+    }
+}
 
 
 // when timer runs out before player answers
@@ -23,6 +41,7 @@ $(document).ready(function() {
 // displays the correct answer was: with right answer
 // displays an image or gif relating correct answer
 // add 1 to the total number of unanswered
+
 
 
 // when player chooses an incorrect answer
@@ -53,6 +72,9 @@ $(document).ready(function() {
 
 // when user presses the start over button
 // this resets the game
+
+})
+
 
 
 
