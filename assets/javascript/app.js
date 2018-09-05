@@ -10,6 +10,7 @@ var unanswered = 0;
 var incorrect = 0;
 var correct = 0;
 var time = 31;
+var questions = ["Which state is the only one in the United States without a National Park?", "another question", "question number three"];
 
 var startTime = function() {
     intervalId = setInterval(countdown, 1000);
@@ -22,12 +23,15 @@ $(document).on("click", "#start", function() {
     $("#start").hide();
     startTime();
     $("ul").show();
-    
+    $("#question").text(questions[0]);
+    $("#option1").text("Delaware");
+    $("#option2").text("Ohio");
+    $("#option3").text("Missouri");
+    $("#option4").text("Kansas");
 })
 
 var countdown = function() {
     time--;
-    console.log(time);
     $("#time-count").text("Time Remaining: " + time)
     if (time === 0) {
         clearInterval(intervalId)
