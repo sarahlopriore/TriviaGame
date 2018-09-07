@@ -4,22 +4,29 @@
 $(document).ready(function() {
 
 $("ul").hide();
+$("#solution").hide();
+
 
 // set variables
 var unanswered = 0;
 var incorrect = 0;
 var correct = 0;
-var time = 31;
+var time = 0;
 var $options = $("#options");
 var questions = ["Which state is the only one in the United States without a National Park?", "another question", "question number three"];
-var answers0 = ["Delaware", "Ohio", "Missouri", "Kansas"]
+var answers = ["Delaware", "answer1", "answer2", "answer3"];
+var answers0 = ["Delaware", "Ohio", "Missouri", "Kansas"];
+var questionCount = 0;
 
 var startTime = function() {
+    time = 31;
     intervalId = setInterval(countdown, 1000);
 }
 
 // create a stop timer function
-//
+var stopTime = function() {
+    clearInterval(intervalId);
+}
 
 // user presses start to begin the game
 // time remaining displays with a timer that counts down (only applies to the one question)
@@ -53,23 +60,40 @@ var countdown = function() {
 
 
 
-// when player chooses an incorrect answer
-// the timer stops
-// tells player the answer was incorrect
-// displays the correct answer was: with right answer
-// displays an image or gif relating correct answer
-// add 1 to the total number of incorrect
-$(document).on("click", ".wrong-answer", function() {
-    $options.empty();
-
-})
-
 
 // when player chooses a correct answer
 // the timer stops
 // tells player the answer was correct
 // displays an image or gif relating correct answer
 // add 1 to the total number of correct
+$(document).on("click", "#options", function() {
+    if ($("li").hasClass("right-answer")) {
+        $options.empty();
+        $("#question").empty();
+        stopTime();
+        correct++;
+        var answerNum = questionCount;
+        $("#result").text("Correct!");
+        // display image relating to question
+    } else {
+        $options.empty();
+        $("#question").empty();
+        stopTime();
+        incorrect++;
+        var answerNum = questionCount;
+        $("#solution").show();
+        $("#result").text("Nope!")
+        $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
+        // display image relating to question
+    }
+})
+// when player chooses an incorrect answer
+// the timer stops
+// tells player the answer was incorrect
+// displays the correct answer was: with right answer
+// displays an image or gif relating correct answer
+// add 1 to the total number of incorrect
+
 
 
 // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
