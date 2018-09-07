@@ -10,11 +10,16 @@ var unanswered = 0;
 var incorrect = 0;
 var correct = 0;
 var time = 31;
+var $options = $("#options");
 var questions = ["Which state is the only one in the United States without a National Park?", "another question", "question number three"];
+var answers0 = ["Delaware", "Ohio", "Missouri", "Kansas"]
 
 var startTime = function() {
     intervalId = setInterval(countdown, 1000);
 }
+
+// create a stop timer function
+//
 
 // user presses start to begin the game
 // time remaining displays with a timer that counts down (only applies to the one question)
@@ -22,12 +27,12 @@ var startTime = function() {
 $(document).on("click", "#start", function() {
     $("#start").hide();
     startTime();
-    $("ul").show();
+    $options.show();
     $("#question").text(questions[0]);
-    $("#option1").text("Delaware");
-    $("#option2").text("Ohio");
-    $("#option3").text("Missouri");
-    $("#option4").text("Kansas");
+    $options.append("<li class='right-answer'>Delaware</li>");
+    $options.append("<li class='wrong-answer'>Ohio</li>");
+    $options.append("<li class='wrong-answer'>Missouri</li>");
+    $options.append("<li class='wrong-answer'>Kansas</li>");
 })
 
 var countdown = function() {
@@ -54,6 +59,10 @@ var countdown = function() {
 // displays the correct answer was: with right answer
 // displays an image or gif relating correct answer
 // add 1 to the total number of incorrect
+$(document).on("click", ".wrong-answer", function() {
+    $options.empty();
+
+})
 
 
 // when player chooses a correct answer
