@@ -5,6 +5,7 @@ $(document).ready(function() {
 
 $("ul").hide();
 $("#solution").hide();
+$("#question").hide();
 
 
 // set variables
@@ -34,7 +35,8 @@ var stopTime = function() {
 $(document).on("click", "#start", function() {
     $("#start").hide();
     startTime();
-    $options.show();
+    $options.show(1000);
+    $("#question").show(1000);
     $("#question").text(questions[0]);
     $options.append("<li class='right-answer'>Delaware</li>");
     $options.append("<li class='wrong-answer'>Ohio</li>");
@@ -42,40 +44,44 @@ $(document).on("click", "#start", function() {
     $options.append("<li class='wrong-answer'>Kansas</li>");
 })
 
-var countdown = function() {
-    time--;
-    $("#time-count").text("Time Remaining: " + time)
-    if (time === 0) {
-        clearInterval(intervalId)
-    }
-}
-
-
 // when timer runs out before player answers
-// displays time raminas as 0 seconds
+// displays time remains as 0 seconds
 // tells the player they are out of time
 // displays the correct answer was: with right answer
 // displays an image or gif relating correct answer
 // add 1 to the total number of unanswered
 
-
-
+var countdown = function() {
+    time--;
+    $("#time-count").text("Time Remaining: " + time)
+    if (time === 0) {
+        stopTime();
+        unanswered++;
+        $options.empty();
+        $("#question").empty();
+        var answerNum = questionCount;
+        $("#solution").show();
+        $("#result").text("Out of time!");
+        $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
+        // display image relating to answer
+    }
+}
 
 // when player chooses a correct answer
 // the timer stops
 // tells player the answer was correct
 // displays an image or gif relating correct answer
 // add 1 to the total number of correct
-$(document).on("click", "#options", function() {
-    if ($("li").hasClass("right-answer")) {
+$(document).on("click", "li", function() {
+    if ($(this).hasClass("right-answer")) {
         $options.empty();
         $("#question").empty();
         stopTime();
         correct++;
-        var answerNum = questionCount;
+        $("#solution").show();
         $("#result").text("Correct!");
         // display image relating to question
-    } else {
+    } else if ($(this).hasClass("wrong-answer")){
         $options.empty();
         $("#question").empty();
         stopTime();
