@@ -34,19 +34,24 @@ var stopTime = function() {
     timerOn = false;
 }
 
+
+var getNextQuestion = function() {
+        startTime();
+        $options.show();
+        $("#question").show();
+        $("#question").text(questions[questionCount]);
+        console.log("next question " + questionCount);
+        console.log("questions array length " + questions.length)
+        console.log("question count: " + questionCount);
+};
+
 // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
 var resultTimeout = function() {
     setTimeout(getNextQuestion(), 10000);
+    console.log("timeout");
 }
 
-var getNextQuestion = function() {
-    for (i = 0; i < questions.length; i++) {
-        startTime();
-        $options.show(1000);
-        $("#question").show(1000);
-        $("#question").text(questions[i]);
-    }
-};
+
 
 // user presses start to begin the game
 // time remaining displays with a timer that counts down (only applies to the one question)
@@ -57,10 +62,18 @@ $(document).on("click", "#start", function() {
     $options.show(1000);
     $("#question").show(1000);
     $("#question").text(questions[0]);
-    $options.append("<p class='answer-choice right-answer'>Delaware</p>");
-    $options.append("<p class='answer-choice wrong-answer'>Ohio</p>");
-    $options.append("<p class='answer-choice wrong-answer'>Missouri</p>");
-    $options.append("<p class='answer-choice wrong-answer'>Kansas</p>");
+    for (i = 0; i < answers0.length; i++) {
+        var arrayChoice = answers0[i]
+        var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+        if (answers.includes(arrayChoice)) {
+            $newAnswer.addClass("right-answer");
+            $options.append($newAnswer);
+        } else {
+            $newAnswer.addClass("wrong-answer");
+            $options.append($newAnswer);
+        }
+
+    }
 })
 
 // when timer runs out before player answers
@@ -82,6 +95,7 @@ var countdown = function() {
         $("#solution").show();
         $("#result").text("Out of time!");
         $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
+        questionCount++;
         // display image relating to answer
         //resultTimeout();
     }
@@ -101,6 +115,7 @@ $(document).on("click", ".answer-choice", function() {
         $("#solution").show();
         $("#result").text("Correct!");
         // display image relating to question
+        questionCount++;
         //resultTimeout();
     } else if ($(this).hasClass("wrong-answer")){
         $options.empty();
@@ -112,7 +127,8 @@ $(document).on("click", ".answer-choice", function() {
         $("#result").text("Nope!")
         $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
         // display image relating to question
-        //resultTimeout();
+        questionCount++;
+        resultTimeout();
     }
 })
 // when player chooses an incorrect answer
