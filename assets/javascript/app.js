@@ -45,12 +45,6 @@ var getNextQuestion = function() {
         console.log("question count: " + questionCount);
 };
 
-// after a set amount of time (5-10 seconds) display the next question with new timer with no user input
-var resultTimeout = function() {
-    setTimeout(getNextQuestion(), 10000);
-    console.log("timeout");
-}
-
 
 
 // user presses start to begin the game
@@ -72,7 +66,6 @@ $(document).on("click", "#start", function() {
             $newAnswer.addClass("wrong-answer");
             $options.append($newAnswer);
         }
-
     }
 })
 
@@ -97,7 +90,8 @@ var countdown = function() {
         $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
         questionCount++;
         // display image relating to answer
-        //resultTimeout();
+        // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
+        setTimeout(getNextQuestion, 5000);
     }
 }
 
@@ -116,7 +110,8 @@ $(document).on("click", ".answer-choice", function() {
         $("#result").text("Correct!");
         // display image relating to question
         questionCount++;
-        //resultTimeout();
+        // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
+        setTimeout(getNextQuestion, 5000);
     } else if ($(this).hasClass("wrong-answer")){
         $options.empty();
         $("#question").empty();
@@ -128,7 +123,8 @@ $(document).on("click", ".answer-choice", function() {
         $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
         // display image relating to question
         questionCount++;
-        resultTimeout();
+        // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
+        setTimeout(getNextQuestion, 5000);
     }
 })
 // when player chooses an incorrect answer
