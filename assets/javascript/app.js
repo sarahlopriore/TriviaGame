@@ -6,6 +6,7 @@ $(document).ready(function() {
 $("#options").hide();
 $("#solution").hide();
 $("#question").hide();
+$("#endResults").hide();
 
 
 // set variables
@@ -43,7 +44,7 @@ var answerChoices = {
     answers2: ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"],
     answers3: ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"],
     answers4: ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"],
-    aswers5: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
+    answers5: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
     answers6: ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"],
     answers7: ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"],
     answers8: ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"],
@@ -82,6 +83,8 @@ var getNextQuestion = function() {
         console.log("correct: " + correct);
         console.log("incorrect: " + incorrect);
         console.log("unanswered: " + unanswered);
+        $("#correct-answer-display").empty();
+        $("#result-image").empty();
         $("#solution").hide();
         startTime();
         $options.show();
@@ -208,7 +211,17 @@ var getNextQuestion = function() {
                 }
             }
         } else {
-            alert("errr message");
+            // this will be the end of the game
+            // display players results
+            stopTime();
+            $("#solution").hide();
+            $("#question").hide();
+            $("#options").hide();
+            $("#endResults").show();
+            $("#correctDisplay").append(correct);
+            $("#incorrectDisplay").append(incorrect);
+            $("#unansweredDisplay").append(unanswered);
+
         }
         
         
