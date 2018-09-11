@@ -25,7 +25,7 @@ var questions = ["Which state is the only one in the United States without a nat
             "Which super volcano is responsible for three of the world's biggest volcano eruptions?",
             "Which national park has the lowest elevation in the United States, at 282 feet below sea level?", 
             "Which was the world's first national park?"];
-var answers = ["Delaware", 
+var correctAnswers = ["Delaware", 
             "Wrangell-St. Elias National Park and Preserve", 
             "Yosemite Falls", 
             "Mount Rainier", 
@@ -35,16 +35,19 @@ var answers = ["Delaware",
             "The Yellowstone Caldera", 
             "Death Valley National Park", 
             "Yellowstone National Park"];
-var answers0 = ["Missouri", "Ohio", "Delaware", "Kansas"];
-var answers1 = ["Denali National Park and Preserve", "Wrangell-St. Elias National Park Preserve", "Everglades National Park", "Grand Canyon National Park"];
-var answers2 = ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"];
-var answers3 = ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"];
-var answers4 = ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"];
-var answers5 = ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"];
-var answers6 = ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"];
-var answers7 = ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"];
-var answers8 = ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"];
-var answers9 = ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"];
+var answerChoices = {
+    answers0: ["Missouri", "Ohio", "Delaware", "Kansas"],
+    answers1: ["Denali National Park and Preserve", "Wrangell-St. Elias National Park Preserve", "Everglades National Park", "Grand Canyon National Park"],
+    answers2: ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"],
+    answers3: ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"],
+    answers4: ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"],
+    answers5: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
+    answers6: ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"],
+    answers7: ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"],
+    answers8: ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"],
+    answers9: ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"]
+};
+
 var questionCount = 0;
 
 var startTime = function() {
@@ -61,17 +64,21 @@ var stopTime = function() {
     timerOn = false;
 }
 
+var mapChoices = $.map(answerChoices, function(n, i) {
+    return i + "," + n;
+});
 
 var getNextQuestion = function() {
+        $("#solution").hide();
         startTime();
         $options.show();
         $("#question").show();
         $("#question").text(questions[questionCount]);
-        console.log("next question " + questionCount);
-        console.log("questions array length " + questions.length)
-        console.log("question count: " + questionCount);
+        
+        
+        console.log("questions array length " + currentAnswers[0]);
+        //console.log("question count: " + questionCount);
 };
-
 
 
 // user presses start to begin the game
@@ -83,10 +90,10 @@ $(document).on("click", "#start", function() {
     $options.show(1000);
     $("#question").show(1000);
     $("#question").text(questions[0]);
-    for (i = 0; i < answers0.length; i++) {
-        var arrayChoice = answers0[i]
+    for (i = 0; i < answerChoices.answers0.length; i++) {
+        var arrayChoice = answerChoices.answers0[i]
         var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-        if (answers.includes(arrayChoice)) {
+        if (correctAnswers.includes(arrayChoice)) {
             $newAnswer.addClass("right-answer");
             $options.append($newAnswer);
         } else {
@@ -94,6 +101,7 @@ $(document).on("click", "#start", function() {
             $options.append($newAnswer);
         }
     }
+    console.log(mapChoices);
 })
 
 // when timer runs out before player answers
@@ -114,7 +122,7 @@ var countdown = function() {
         var answerNum = questionCount;
         $("#solution").show();
         $("#result").text("Out of time!");
-        $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
+        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[answerNum]);
         questionCount++;
         // display image relating to answer
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
@@ -147,7 +155,7 @@ $(document).on("click", ".answer-choice", function() {
         var answerNum = questionCount;
         $("#solution").show();
         $("#result").text("Nope!")
-        $("#correct-answer-display").text("The correct answer was: " + answers[answerNum]);
+        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[answerNum]);
         // display image relating to question
         questionCount++;
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
