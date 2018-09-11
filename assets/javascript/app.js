@@ -9,8 +9,8 @@ $("#question").hide();
 
 
 // set variables
-var firstAnswer = [];
-var answerNum = "";
+//var firstAnswer = [];
+//var answerNum = "";
 var timerOn = false;
 var unanswered = 0;
 var incorrect = 0;
@@ -72,12 +72,16 @@ var stopTime = function() {
 
 var descriptors = Object.getOwnPropertyDescriptors(answerChoices);
 
-console.log(descriptors.answers1.value);
-console.log(descriptors);
+//console.log(descriptors.answers1.value);
+//console.log(descriptors);
 
 
 
 var getNextQuestion = function() {
+        console.log("question count: " + questionCount);
+        console.log("correct: " + correct);
+        console.log("incorrect: " + incorrect);
+        console.log("unanswered: " + unanswered);
         $("#solution").hide();
         startTime();
         $options.show();
@@ -93,11 +97,107 @@ var getNextQuestion = function() {
                 } else {
                     $newAnswer.addClass("wrong-answer");
                     $options.append($newAnswer);
-                }
-            }
+                };
+            };
         } else if (questionCount === 1) {
-            for (j = 0; j <answerChoices.answers1.length; j++) {
+            for (j = 0; j < answerChoices.answers1.length; j++) {
                 var arrayChoice = answerChoices.answers1[j];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 2) {
+            for (k = 0; k < answerChoices.answers2.length; k++) {
+                var arrayChoice = answerChoices.answers2[k];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 3) {
+            for (l = 0; l < answerChoices.answers3.length; l++) {
+                var arrayChoice = answerChoices.answers3[l];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 4) {
+            for (m = 0; m < answerChoices.answers4.length; m++) {
+                var arrayChoice = answerChoices.answers4[m];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 5) {
+            for (n = 0; n < answerChoices.answers5.length; n++) {
+                var arrayChoice = answerChoices.answers5[n];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 6) {
+            for (p = 0; p < answerChoices.answers6.length; p++) {
+                var arrayChoice = answerChoices.answers6[p];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 7) {
+            for (q = 0; q < answerChoices.answers7.length; q++) {
+                var arrayChoice = answerChoices.answers7[q];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 8) {
+            for (r = 0; r < answerChoices.answers8.length; r++) {
+                var arrayChoice = answerChoices.answers8[r];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                };
+            };
+        } else if (questionCount === 9) {
+            for (s = 0; s < answerChoices.answers9.length; s++) {
+                var arrayChoice = answerChoices.answers9[s];
                 var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
                 if (correctAnswers.includes(arrayChoice)) {
                     $newAnswer.addClass("right-answer");
@@ -107,24 +207,8 @@ var getNextQuestion = function() {
                     $options.append($newAnswer);
                 }
             }
-        } else if (questionCount === 2) {
-
-        } else if (questionCount === 3) {
-
-        } else if (questionCount === 4) {
-            
-        } else if (questionCount === 5) {
-
-        } else if (questionCount === 6) {
-
-        } else if (questionCount === 7) {
-
-        } else if (questionCount === 8) {
-
-        } else if (questionCount === 9) {
-
         } else {
-
+            alert("errr message");
         }
         
         
@@ -135,9 +219,8 @@ var getNextQuestion = function() {
 // time remaining displays with a timer that counts down (only applies to the one question)
 // first question appears with 4 options
 $(document).on("click", "#start", function() {
+    $("#start").hide();
     getNextQuestion();
-    
-    //$("#start").hide();
     //startTime();
     //$options.show(1000);
     //$("#question").show(1000);
@@ -170,10 +253,10 @@ var countdown = function() {
         unanswered++;
         $options.empty();
         $("#question").empty();
-        var answerNum = questionCount;
+        //var answerNum = questionCount;
         $("#solution").show();
         $("#result").text("Out of time!");
-        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[answerNum]);
+        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[questionCount]);
         questionCount++;
         // display image relating to answer
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
@@ -203,10 +286,10 @@ $(document).on("click", ".answer-choice", function() {
         $("#question").empty();
         stopTime();
         incorrect++;
-        var answerNum = questionCount;
+        //var answerNum = questionCount;
         $("#solution").show();
         $("#result").text("Nope!")
-        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[answerNum]);
+        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[questionCount]);
         // display image relating to question
         questionCount++;
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
