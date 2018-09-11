@@ -9,6 +9,8 @@ $("#question").hide();
 
 
 // set variables
+var firstAnswer = [];
+var answerNum = "";
 var timerOn = false;
 var unanswered = 0;
 var incorrect = 0;
@@ -37,11 +39,11 @@ var correctAnswers = ["Delaware",
             "Yellowstone National Park"];
 var answerChoices = {
     answers0: ["Missouri", "Ohio", "Delaware", "Kansas"],
-    answers1: ["Denali National Park and Preserve", "Wrangell-St. Elias National Park Preserve", "Everglades National Park", "Grand Canyon National Park"],
+    answers1: ["Denali National Park and Preserve", "Wrangell-St. Elias National Park and Preserve", "Everglades National Park", "Grand Canyon National Park"],
     answers2: ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"],
     answers3: ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"],
     answers4: ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"],
-    answers5: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
+    aswers5: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
     answers6: ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"],
     answers7: ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"],
     answers8: ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"],
@@ -64,9 +66,16 @@ var stopTime = function() {
     timerOn = false;
 }
 
-var mapChoices = $.map(answerChoices, function(n, i) {
-    return i + "," + n;
-});
+//var mapChoices = $.map(answerChoices, function(n, i) {
+  //  return i + "," + n;
+//});
+
+var descriptors = Object.getOwnPropertyDescriptors(answerChoices);
+
+console.log(descriptors.answers1.value);
+console.log(descriptors);
+
+
 
 var getNextQuestion = function() {
         $("#solution").hide();
@@ -74,10 +83,51 @@ var getNextQuestion = function() {
         $options.show();
         $("#question").show();
         $("#question").text(questions[questionCount]);
+        if (questionCount === 0) {
+            for (i = 0; i < answerChoices.answers0.length; i++) {
+                var arrayChoice = answerChoices.answers0[i];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                }
+            }
+        } else if (questionCount === 1) {
+            for (j = 0; j <answerChoices.answers1.length; j++) {
+                var arrayChoice = answerChoices.answers1[j];
+                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+                if (correctAnswers.includes(arrayChoice)) {
+                    $newAnswer.addClass("right-answer");
+                    $options.append($newAnswer);
+                } else {
+                    $newAnswer.addClass("wrong-answer");
+                    $options.append($newAnswer);
+                }
+            }
+        } else if (questionCount === 2) {
+
+        } else if (questionCount === 3) {
+
+        } else if (questionCount === 4) {
+            
+        } else if (questionCount === 5) {
+
+        } else if (questionCount === 6) {
+
+        } else if (questionCount === 7) {
+
+        } else if (questionCount === 8) {
+
+        } else if (questionCount === 9) {
+
+        } else {
+
+        }
         
         
-        console.log("questions array length " + currentAnswers[0]);
-        //console.log("question count: " + questionCount);
 };
 
 
@@ -85,23 +135,24 @@ var getNextQuestion = function() {
 // time remaining displays with a timer that counts down (only applies to the one question)
 // first question appears with 4 options
 $(document).on("click", "#start", function() {
-    $("#start").hide();
-    startTime();
-    $options.show(1000);
-    $("#question").show(1000);
-    $("#question").text(questions[0]);
-    for (i = 0; i < answerChoices.answers0.length; i++) {
-        var arrayChoice = answerChoices.answers0[i]
-        var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-        if (correctAnswers.includes(arrayChoice)) {
-            $newAnswer.addClass("right-answer");
-            $options.append($newAnswer);
-        } else {
-            $newAnswer.addClass("wrong-answer");
-            $options.append($newAnswer);
-        }
-    }
-    console.log(mapChoices);
+    getNextQuestion();
+    
+    //$("#start").hide();
+    //startTime();
+    //$options.show(1000);
+    //$("#question").show(1000);
+    //$("#question").text(questions[0]);
+    //for (i = 0; i < answerChoices.answers0.length; i++) {
+        //var arrayChoice = answerChoices.answers0[i]
+        //var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
+        //if (correctAnswers.includes(arrayChoice)) {
+            //$newAnswer.addClass("right-answer");
+            //$options.append($newAnswer);
+        //} else {
+            //$newAnswer.addClass("wrong-answer");
+            //$options.append($newAnswer);
+        //}
+    //}
 })
 
 // when timer runs out before player answers
