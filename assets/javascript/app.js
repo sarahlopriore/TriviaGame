@@ -15,9 +15,36 @@ var incorrect = 0;
 var correct = 0;
 var time = 0;
 var $options = $("#options");
-var questions = ["Which state is the only one in the United States without a National Park?", "another question", "question number three"];
-var answers = ["Delaware", "answer1", "answer2", "answer3"];
-var answers0 = ["Delaware", "Ohio", "Missouri", "Kansas"];
+var questions = ["Which state is the only one in the United States without a national park?", 
+            "Which is the largest of all the National Parks?", 
+            "Which waterfall is the tallest in Yosemite National Park?", 
+            "Which mountain has the most glaciated peak in the contiguous United States?",
+            "Which two states are tied for having the most national parks?", 
+            "Which national park is home to the nation's deepest cave, at 1,593 ft deep?", 
+            "Which is the deepest lake in the United States?", 
+            "Which super volcano is responsible for three of the world's biggest volcano eruptions?",
+            "Which national park has the lowest elevation in the United States, at 282 feet below sea level?", 
+            "Which was the world's first national park?"];
+var answers = ["Delaware", 
+            "Wrangell-St. Elias National Park and Preserve", 
+            "Yosemite Falls", 
+            "Mount Rainier", 
+            "California and Alaska", 
+            "Carlsbad Caverns National Park", 
+            "Crater Lake", 
+            "The Yellowstone Caldera", 
+            "Death Valley National Park", 
+            "Yellowstone National Park"];
+var answers0 = ["Missouri", "Ohio", "Delaware", "Kansas"];
+var answers1 = ["Denali National Park and Preserve", "Wrangell-St. Elias National Park Preserve", "Everglades National Park", "Grand Canyon National Park"];
+var answers2 = ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"];
+var answers3 = ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"];
+var answers4 = ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"];
+var answers5 = ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"];
+var answers6 = ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"];
+var answers7 = ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"];
+var answers8 = ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"];
+var answers9 = ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"];
 var questionCount = 0;
 
 var startTime = function() {
