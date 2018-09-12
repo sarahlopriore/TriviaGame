@@ -51,7 +51,16 @@ var answerChoices = {
     answers9: ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"]
 };
 
-var resultImages = [];
+var resultImages = ["assets/images/delaware.jpg", 
+                "assets/images/wrangell.jpg", 
+                "assets/images/yosemite-falls.jpg", 
+                "assets/images/mount-rainier.jpg", 
+                "assets/images/number-8.jpg", 
+                "assets/images/carlsbad-cavern.jpg", 
+                "assets/images/crater-lake.jpg", 
+                "assets/images/yellowstone-caldera.jpeg", 
+                "assets/images/death-valley.jpg",
+                "assets/images/yellowstone-national-park.jpg"];
 
 var questionCount = 0;
 
@@ -272,8 +281,9 @@ var countdown = function() {
         $("#solution").show();
         $("#result").text("Out of time!");
         $("#correct-answer-display").text("The correct answer was: " + correctAnswers[questionCount]);
-        questionCount++;
         // display image relating to answer
+        $("#result-image").attr("src", resultImages[questionCount]);
+        questionCount++;
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
         setTimeout(getNextQuestion, 5000);
     }
@@ -293,6 +303,7 @@ $(document).on("click", ".answer-choice", function() {
         $("#solution").show();
         $("#result").text("Correct!");
         // display image relating to question
+        $("#result-image").attr("src", resultImages[questionCount]);
         questionCount++;
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
         setTimeout(getNextQuestion, 5000);
@@ -306,6 +317,7 @@ $(document).on("click", ".answer-choice", function() {
         $("#result").text("Nope!")
         $("#correct-answer-display").text("The correct answer was: " + correctAnswers[questionCount]);
         // display image relating to question
+        $("#result-image").attr("src", resultImages[questionCount]);
         questionCount++;
         // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
         setTimeout(getNextQuestion, 5000);
