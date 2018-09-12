@@ -51,6 +51,8 @@ var answerChoices = {
     answers9: ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"]
 };
 
+var resultImages = [];
+
 var questionCount = 0;
 
 var startTime = function() {

@@ -1,0 +1,41 @@
+p {
+    font-size: 24px;
+}
+
+#question {
+    color: mediumvioletred;
+    font-weight: normal;
+    font-size: 28px;
+}
+
+#gameTitle {
+    color: darkorange;
+}
+
+#time-count {
+    color: darkolivegreen;
+}
+
+.answer-choice {
+    color: goldenrod;
+}
+
+#result {
+    color: indianred;
+}
+
+#correct-answer-display {
+    color: darkcyan;
+}
+
+#correctDisplay {
+    color: darkcyan;
+}
+
+#incorrectDisplay {
+    color: indianred;
+}
+
+#unansweredDisplay {
+    color: goldenrod;
+}
