@@ -1,11 +1,17 @@
+body {
+    background: url("../images/leaves.png");
+}
+
 p {
     font-size: 24px;
+    font-weight: bold;
 }
 
 #question {
     color: mediumvioletred;
     font-weight: normal;
     font-size: 28px;
+    font-weight: bold;
 }
 
 #gameTitle {

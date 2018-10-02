@@ -10,8 +10,6 @@ $("#endResults").hide();
 
 
 // set variables
-//var firstAnswer = [];
-//var answerNum = "";
 var timerOn = false;
 var unanswered = 0;
 var incorrect = 0;
@@ -55,7 +53,7 @@ var resultImages = ["assets/images/delaware.jpg",
                 "assets/images/wrangell.jpg", 
                 "assets/images/yosemite-falls.jpg", 
                 "assets/images/mount-rainier.jpg", 
-                "assets/images/number-8.jpg", 
+                "assets/images/sequoia.jpg", 
                 "assets/images/carlsbad-cavern.jpg", 
                 "assets/images/crater-lake.jpg", 
                 "assets/images/yellowstone-caldera.jpeg", 
@@ -78,14 +76,6 @@ var stopTime = function() {
     timerOn = false;
 }
 
-//var mapChoices = $.map(answerChoices, function(n, i) {
-  //  return i + "," + n;
-//});
-
-var descriptors = Object.getOwnPropertyDescriptors(answerChoices);
-
-//console.log(descriptors.answers1.value);
-//console.log(descriptors);
 
 
 
@@ -232,8 +222,15 @@ var getNextQuestion = function() {
             $("#correctDisplay").append(correct);
             $("#incorrectDisplay").append(incorrect);
             $("#unansweredDisplay").append(unanswered);
+            var $newbutton = $("<button></button");
+            $newbutton.text("Start Over?")
+            $newbutton.attr("id", "restart")
+            $newbutton.addClass("btn btn-lg btn-outline-success")
+            $("#endResults").append($newbutton);
+            
 
         }
+        
         
         
 };
@@ -245,21 +242,6 @@ var getNextQuestion = function() {
 $(document).on("click", "#start", function() {
     $("#start").hide();
     getNextQuestion();
-    //startTime();
-    //$options.show(1000);
-    //$("#question").show(1000);
-    //$("#question").text(questions[0]);
-    //for (i = 0; i < answerChoices.answers0.length; i++) {
-        //var arrayChoice = answerChoices.answers0[i]
-        //var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-        //if (correctAnswers.includes(arrayChoice)) {
-            //$newAnswer.addClass("right-answer");
-            //$options.append($newAnswer);
-        //} else {
-            //$newAnswer.addClass("wrong-answer");
-            //$options.append($newAnswer);
-        //}
-    //}
 })
 
 // when timer runs out before player answers
@@ -323,25 +305,24 @@ $(document).on("click", ".answer-choice", function() {
         setTimeout(getNextQuestion, 5000);
     }
 })
-// when player chooses an incorrect answer
-// the timer stops
-// tells player the answer was incorrect
-// displays the correct answer was: with right answer
-// displays an image or gif relating correct answer
-// add 1 to the total number of incorrect
-
-
-
-// once all questions have been answered display results
-// something about the game being over and here is how the player did
-// display number of correct answers
-// display number of incorrect answers
-// display number of unanswered questions
-// display a start over button
 
 
 // when user presses the start over button
 // this resets the game
+
+var restart = function() {
+timerOn = false;
+unanswered = 0;
+incorrect = 0;
+correct = 0;
+questionCount = 0;
+time = 0;
+$("#endResults").hide();
+getNextQuestion();
+}
+
+
+
 
 })
 
