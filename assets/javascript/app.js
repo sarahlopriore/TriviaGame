@@ -1,333 +1,211 @@
 // start page with trivia game title and a start button
 // game title is constant
-
 $(document).ready(function() {
 
-$("#options").hide();
-$("#solution").hide();
-$("#question").hide();
-$("#endResults").hide();
+    $("#options").hide();
+    $("#solution").hide();
+    $("#question").hide();
+    $("#endResults").hide();
 
 
-// set variables
-var timerOn = false;
-var unanswered = 0;
-var incorrect = 0;
-var correct = 0;
-var time = 0;
-var $options = $("#options");
-var questions = ["Which state is the only one in the United States without a national park?", 
-            "Which is the largest of all the National Parks?", 
-            "Which waterfall is the tallest in Yosemite National Park?", 
-            "Which mountain has the most glaciated peak in the contiguous United States?",
-            "Which two states are tied for having the most national parks?", 
-            "Which national park is home to the nation's deepest cave, at 1,593 ft deep?", 
-            "Which is the deepest lake in the United States?", 
-            "Which super volcano is responsible for three of the world's biggest volcano eruptions?",
-            "Which national park has the lowest elevation in the United States, at 282 feet below sea level?", 
-            "Which was the world's first national park?"];
-var correctAnswers = ["Delaware", 
-            "Wrangell-St. Elias National Park and Preserve", 
-            "Yosemite Falls", 
-            "Mount Rainier", 
-            "California and Alaska", 
-            "Carlsbad Caverns National Park", 
-            "Crater Lake", 
-            "The Yellowstone Caldera", 
-            "Death Valley National Park", 
-            "Yellowstone National Park"];
-var answerChoices = {
-    answers0: ["Missouri", "Ohio", "Delaware", "Kansas"],
-    answers1: ["Denali National Park and Preserve", "Wrangell-St. Elias National Park and Preserve", "Everglades National Park", "Grand Canyon National Park"],
-    answers2: ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"],
-    answers3: ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"],
-    answers4: ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"],
-    answers5: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
-    answers6: ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"],
-    answers7: ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"],
-    answers8: ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"],
-    answers9: ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"]
-};
+// set of questions and answers
+var questions = [{
+    question: "Which state is the only one in the United States without a national park?",
+    answers: ["Missouri", "Ohio", "Delaware", "Kansas"],
+    correctAnswer: "Delaware",
+    image: "assets/images/delaware.jpg"
+}, {
+    question: "Which is the largest of all the National Parks?", 
+    answers: ["Denali National Park and Preserve", "Wrangell-St. Elias National Park and Preserve", "Everglades National Park", "Grand Canyon National Park"],
+    correctAnswer: "Wrangell-St. Elias National Park and Preserve",
+    image: "assets/images/wrangell.jpg"
+}, {
+    question: "Which waterfall is the tallest in Yosemite National Park?", 
+    answers: ["Sentinal Falls", "Bridalveil Fall", "Ribbon Fall", "Yosemite Falls"],
+    correctAnswer: "Yosemite Falls",
+    image: "assets/images/yosemite-falls.jpg"
+}, {
+    question: "Which mountain has the most glaciated peak in the contiguous United States?",
+    answers: ["Mount Elbert", "Mount Rainier", "Mount Shasta", "Grand Teton"],
+    correctAnswer: "Mount Rainier",
+    image: "assets/images/mount-rainier.jpg"
+}, {
+    question: "Which two states are tied for having the most national parks?", 
+    answers: ["California and Alaska", "Utah and Arizona", "Washington and Florida", "Colorado and Alaska"],
+    correctAnswer: "California and Alaska",
+    image: "assets/images/sequoia.jpg"
+}, {
+    question: "Which national park is home to the nation's deepest cave, at 1,593 ft deep?",
+    answers: ["Wind Cave National Park", "Mammoth Cave National Park", "Oregon Caves National Monument", "Carlsbad Caverns National Park"],
+    correctAnswer: "Carlsbad Caverns National Park", 
+    image: "assets/images/carlsbad-cavern.jpg"
+}, {
+    question: "Which is the deepest lake in the United States?", 
+    answers: ["Lake Tahoe", "Crater Lake", "Lake Superior", "Lake Chelan"],
+    correctAnswer: "Crater Lake",
+    image: "assets/images/crater-lake.jpg"
+}, {
+    question: "Which super volcano is responsible for three of the world's biggest volcano eruptions?",
+    answers: ["The Long Valley Caldera", "Mount Aniakchak", "Valles Caldera", "The Yellowstone Caldera"],
+    correctAnswer: "The Yellowstone Caldera", 
+    image: "assets/images/yellowstone-caldera.jpeg"
+}, {
+    question: "Which national park has the lowest elevation in the United States, at 282 feet below sea level?", 
+    answers: ["Everglades National Park", "Death Valley National Park", "Kenai Fjords National Park", "Glacier Bay National Park and Preserve"],
+    correctAnswer: "Death Valley National Park",
+    image: "assets/images/death-valley.jpg"
+}, {
+    question: "Which was the world's first national park?",
+    answers: ["Yellowstone National Park", "Mesa Verde", "Sequoia National Park", "Yosemite National Park"],
+    correctAnswer: "Yellowstone National Park",
+    image: "assets/images/yellowstone-national-park.jpg"
+}]
 
-var resultImages = ["assets/images/delaware.jpg", 
-                "assets/images/wrangell.jpg", 
-                "assets/images/yosemite-falls.jpg", 
-                "assets/images/mount-rainier.jpg", 
-                "assets/images/sequoia.jpg", 
-                "assets/images/carlsbad-cavern.jpg", 
-                "assets/images/crater-lake.jpg", 
-                "assets/images/yellowstone-caldera.jpeg", 
-                "assets/images/death-valley.jpg",
-                "assets/images/yellowstone-national-park.jpg"];
+var timer;
 
-var questionCount = 0;
+var triviaGame = {
+    questions: questions,
+    questionCount: 0,
+    counter: 30,
+    correct: 0,
+    incorrect: 0,
+    unanswered: 0,
 
-var startTime = function() {
-    if (!timerOn) {
-        time = 31;
-        intervalId = setInterval(countdown, 1000);
-    }
-    timerOn = true;
-}
+    countdown: function() {
+        triviaGame.counter--;
+        $("#time-count").text("Time Remaining: " + triviaGame.counter);
+        if (triviaGame.counter === 0) {
+            triviaGame.timesUp();
+        }
+    },
 
-// create a stop timer function
-var stopTime = function() {
-    clearInterval(intervalId);
-    timerOn = false;
-}
+    getQuestion: function() {
+        timer = setInterval(triviaGame.countdown, 1000);
+        console.log(triviaGame.questionCount);
+        $(".start-section").hide();
+        $("#question").show();
+        $("#question").text(questions[this.questionCount].question);
+        $("#options").show();
+        for (i = 0; i < questions[this.questionCount].answers.length; i++) {
+            $("#options").append("<button class='answer-choice btn text-center' id='button' data-name='" + questions[this.questionCount].answers[i]
+            + "'>" + questions[this.questionCount].answers[i] + "</button>");
+        }
+    },
 
-
-
-
-var getNextQuestion = function() {
-        console.log("question count: " + questionCount);
-        console.log("correct: " + correct);
-        console.log("incorrect: " + incorrect);
-        console.log("unanswered: " + unanswered);
+    nextQuestion: function() {
         $("#correct-answer-display").empty();
         $("#result-image").empty();
         $("#solution").hide();
-        startTime();
-        $options.show();
-        $("#question").show();
-        $("#question").text(questions[questionCount]);
-        if (questionCount === 0) {
-            for (i = 0; i < answerChoices.answers0.length; i++) {
-                var arrayChoice = answerChoices.answers0[i];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 1) {
-            for (j = 0; j < answerChoices.answers1.length; j++) {
-                var arrayChoice = answerChoices.answers1[j];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 2) {
-            for (k = 0; k < answerChoices.answers2.length; k++) {
-                var arrayChoice = answerChoices.answers2[k];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 3) {
-            for (l = 0; l < answerChoices.answers3.length; l++) {
-                var arrayChoice = answerChoices.answers3[l];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 4) {
-            for (m = 0; m < answerChoices.answers4.length; m++) {
-                var arrayChoice = answerChoices.answers4[m];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 5) {
-            for (n = 0; n < answerChoices.answers5.length; n++) {
-                var arrayChoice = answerChoices.answers5[n];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 6) {
-            for (p = 0; p < answerChoices.answers6.length; p++) {
-                var arrayChoice = answerChoices.answers6[p];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 7) {
-            for (q = 0; q < answerChoices.answers7.length; q++) {
-                var arrayChoice = answerChoices.answers7[q];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 8) {
-            for (r = 0; r < answerChoices.answers8.length; r++) {
-                var arrayChoice = answerChoices.answers8[r];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                };
-            };
-        } else if (questionCount === 9) {
-            for (s = 0; s < answerChoices.answers9.length; s++) {
-                var arrayChoice = answerChoices.answers9[s];
-                var $newAnswer = $("<p class='answer-choice'></p>").append(arrayChoice);
-                if (correctAnswers.includes(arrayChoice)) {
-                    $newAnswer.addClass("right-answer");
-                    $options.append($newAnswer);
-                } else {
-                    $newAnswer.addClass("wrong-answer");
-                    $options.append($newAnswer);
-                }
-            }
-        } else {
-            // this will be the end of the game
-            // display players results
-            stopTime();
-            $("#solution").hide();
-            $("#question").hide();
-            $("#options").hide();
-            $("#endResults").show();
-            $("#correctDisplay").append(correct);
-            $("#incorrectDisplay").append(incorrect);
-            $("#unansweredDisplay").append(unanswered);
-            var $newbutton = $("<button></button");
-            $newbutton.text("Start Over?")
-            $newbutton.attr("id", "restart")
-            $newbutton.addClass("btn btn-lg btn-outline-success")
-            $("#endResults").append($newbutton);
-            
+        $("#options").empty();
+        triviaGame.counter = 30;
+        $("#time-count").text("Time Remaining: " + triviaGame.counter);
+        triviaGame.questionCount++;
+        triviaGame.getQuestion();
+    },
 
-        }
-        
-        
-        
-};
-
-
-// user presses start to begin the game
-// time remaining displays with a timer that counts down (only applies to the one question)
-// first question appears with 4 options
-$(document).on("click", "#start", function() {
-    $("#start").hide();
-    getNextQuestion();
-})
-
-// when timer runs out before player answers
-// displays time remains as 0 seconds
-// tells the player they are out of time
-// displays the correct answer was: with right answer
-// displays an image or gif relating correct answer
-// add 1 to the total number of unanswered
-
-var countdown = function() {
-    time--;
-    $("#time-count").text("Time Remaining: " + time)
-    if (time === 0) {
-        stopTime();
-        unanswered++;
-        $options.empty();
-        $("#question").empty();
-        //var answerNum = questionCount;
+    timesUp: function() {
+        clearInterval(timer);
+        triviaGame.unanswered++
+        $("#time-count").text("Time Remaining: " + triviaGame.counter);
+        $("#question").hide();
+        $("#options").hide();
         $("#solution").show();
         $("#result").text("Out of time!");
-        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[questionCount]);
+        $("#correct-answer-display").text("The correct answer was " + questions[this.questionCount].correctAnswer);
         // display image relating to answer
-        $("#result-image").attr("src", resultImages[questionCount]);
-        questionCount++;
-        // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
-        setTimeout(getNextQuestion, 5000);
-    }
-}
+        $("#result-image").attr("src", questions[this.questionCount].image);
 
-// when player chooses a correct answer
-// the timer stops
-// tells player the answer was correct
-// displays an image or gif relating correct answer
-// add 1 to the total number of correct
-$(document).on("click", ".answer-choice", function() {
-    if ($(this).hasClass("right-answer")) {
-        $options.empty();
-        $("#question").empty();
-        stopTime();
-        correct++;
+        if (triviaGame.questionCount === questions.length - 1) {
+            setTimeout(triviaGame.results, 3 * 1000)
+        }
+        else {
+            setTimeout(triviaGame.nextQuestion, 3 * 1000)
+        }
+    },
+
+    results: function() {
+        clearInterval(timer);
+        $("#options").hide();
+        $("#solution").hide();
+        $("#question").hide();
+        $("#time-count").hide();
+        $("#endResults").show();
+        $("#correctDisplay").text("Correct Answers: " + triviaGame.correct);
+        $("#incorrectDisplay").text("Incorrect Answers: " + triviaGame.incorrect);
+        $("#unansweredDisplay").text("Unanswered: " + triviaGame.unanswered);
+        $("#endResults").append("<br><button id='restart'>Restart?</button>");
+    },
+
+    clicked: function(event) {
+        clearInterval(timer);
+        if ($(event.target).attr("data-name") === questions[this.questionCount].correctAnswer) {
+            this.answeredCorrect();
+        }
+        else {
+            this.answeredIncorrect();
+        }
+    },
+
+    answeredIncorrect: function() {
+        triviaGame.incorrect++
+        clearInterval(timer);
+        $("#question").hide();
+        $("#options").hide();
+        $("#solution").show();
+        $("#result").text("Wrong answer!");
+        $("#correct-answer-display").text("The correct answer was " + questions[triviaGame.questionCount].correctAnswer);
+        $("#result-image").attr("src", questions[triviaGame.questionCount].image);
+
+        if (triviaGame.questionCount === questions.length - 1) {
+            setTimeout(triviaGame.results, 3 * 1000)
+        }
+        else {
+            setTimeout(triviaGame.nextQuestion, 3 * 1000)
+        }
+    },
+
+    answeredCorrect: function() {
+        triviaGame.correct++
+        clearInterval(timer);
+        $("#question").hide();
+        $("#options").hide();
         $("#solution").show();
         $("#result").text("Correct!");
-        // display image relating to question
-        $("#result-image").attr("src", resultImages[questionCount]);
-        questionCount++;
-        // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
-        setTimeout(getNextQuestion, 5000);
-    } else if ($(this).hasClass("wrong-answer")){
-        $options.empty();
-        $("#question").empty();
-        stopTime();
-        incorrect++;
-        //var answerNum = questionCount;
-        $("#solution").show();
-        $("#result").text("Nope!")
-        $("#correct-answer-display").text("The correct answer was: " + correctAnswers[questionCount]);
-        // display image relating to question
-        $("#result-image").attr("src", resultImages[questionCount]);
-        questionCount++;
-        // after a set amount of time (5-10 seconds) display the next question with new timer with no user input
-        setTimeout(getNextQuestion, 5000);
+        $("#result-image").attr("src", questions[triviaGame.questionCount].image);
+
+        if (triviaGame.questionCount === questions.length - 1) {
+            setTimeout(triviaGame.results, 3 * 1000)
+        }
+        else {
+            setTimeout(triviaGame.nextQuestion, 3 * 1000)
+        }
+    },
+
+    reset: function() {
+        this.questionCount = 0;
+        this.counter = 30;
+        this.correct = 0;
+        this.incorrect = 0;
+        this.unanswered = 0;
+        $("#options").hide();
+        $("#options").empty();
+        $("#solution").hide();
+        $("#question").hide();
+        $("#endResults").hide();
+        this.getQuestion();
     }
-})
-
-
-// when user presses the start over button
-// this resets the game
-
-var restart = function() {
-timerOn = false;
-unanswered = 0;
-incorrect = 0;
-correct = 0;
-questionCount = 0;
-time = 0;
-$("#endResults").hide();
-getNextQuestion();
 }
 
-
-
-
+$(document).on("click", "#start", function() {
+    triviaGame.getQuestion();
 })
 
+$(document).on("click", ".answer-choice", function(event) {
+    triviaGame.clicked(event)
+})
 
+$(document).on("click", "#restart", function() {
+    triviaGame.reset();
+})
 
-
-
-    
+})

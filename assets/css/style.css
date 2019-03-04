@@ -23,7 +23,9 @@ p {
 }
 
 .answer-choice {
-    color: goldenrod;
+    background-color: goldenrod;
+    color: white;
+    margin: 2%;
 }
 
 #result {
@@ -44,4 +46,8 @@ p {
 
 #unansweredDisplay {
     color: goldenrod;
+}
+
+.answer-choice:hover {
+    background-color: darkgoldenrod;
 }
